@@ -86,17 +86,21 @@ function GetClosestEnemy(folderName)
     local playerPosition = player.Character.HumanoidRootPart.Position
 
     for _, enemy in pairs(targetFolder:GetChildren()) do
-        if enemy:IsA("Model") and enemy:FindFirstChild("HumanoidRootPart") and enemy.Humanoid.Health ~= 0 then
-            local distance = (playerPosition - enemy.HumanoidRootPart.Position).Magnitude
-            if distance < closestDistance then
-                closestDistance = distance
-                closestEnemy = enemy
+        if enemy:IsA("Model") and enemy:FindFirstChild("HumanoidRootPart") then
+            local dead = enemy:FindFirstChild("Dead")
+            if dead and dead.Value ~= true then
+                local distance = (playerPosition - enemy.HumanoidRootPart.Position).Magnitude
+                if distance < closestDistance then
+                    closestDistance = distance
+                    closestEnemy = enemy
+                end
             end
         end
     end
 
     return closestEnemy
 end
+
 
 -- tables
 
@@ -256,8 +260,9 @@ local AreaHealthTeleport = Tabs.TPS:AddRightGroupbox('Area Health Teleport')
 local AreaImmunityTeleport = Tabs.TPS:AddRightGroupbox('Area Defense Teleport')
 local AreaPsychicsTeleport = Tabs.TPS:AddRightGroupbox('Area Psychics Teleport')
 local AreaMagicTeleport = Tabs.TPS:AddRightGroupbox('Area Magic Teleport')
-local Fly = Tabs.Main:AddRightGroupbox('Fly (not mine)')
+local Fly = Tabs.Main:AddRightGroupbox('Fly (F)')
 local MiscSec = Tabs.Main:AddRightGroupbox('Anti Afk')
+local AreaFarmBox = Tabs.Main:AddLeftGroupbox('Area Farm')
 
 AutoFarmBox:AddToggle("AutoFarm", { Text = "AutoFarm" })
 
@@ -277,18 +282,24 @@ Toggles.AutoFarm:OnChanged(function(s)
                 player.Character.HumanoidRootPart.CFrame = CFrame.new(-238.32908630371094, 99.5722427368164, 250.33648681640625)
 
                 while energy < maxEnergy do
-                    task.wait(0.2)
+                    task.wait()
                     player.Character.HumanoidRootPart.CFrame = CFrame.new(-238.32908630371094, 99.5722427368164, 250.33648681640625)
                     energy = player.TempValues.Energy.Value
+                    if getgenv().AutoFarm == false then
+                        break
+                    end
                 end
             end
             if health < maxHealth * getgenv().HealthCheckSlider / 100 and getgenv().HealthCheck then
                 player.Character.HumanoidRootPart.CFrame = CFrame.new(-238.32908630371094, 99.5722427368164, 250.33648681640625)
 
                 while health < maxHealth do
-                    task.wait(0.2)
+                    task.wait()
                     player.Character.HumanoidRootPart.CFrame = CFrame.new(-238.32908630371094, 99.5722427368164, 250.33648681640625)
                     health = chr.Humanoid.Health
+                    if getgenv().AutoFarm == false then
+                        break
+                    end
                 end
             end
         else
@@ -297,16 +308,15 @@ Toggles.AutoFarm:OnChanged(function(s)
         local folderName = getgenv().FolderName
         local enemy = GetClosestEnemy(folderName)
     
-        if enemy and enemy:FindFirstChild("HumanoidRootPart") and enemy:FindFirstChild("Head") and enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health ~= 0 then 
+        if enemy and enemy:FindFirstChild("HumanoidRootPart") and enemy:FindFirstChild("Dead").Value ~= true then 
                 local enemyPos = enemy.HumanoidRootPart.Position
                 local behindPos = enemyPos - (enemy.HumanoidRootPart.CFrame.LookVector * getgenv().OffsetSlider)
                 behindPos = Vector3.new(behindPos.X, enemyPos.Y, behindPos.Z)
-    
                 if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
                     player.Character.HumanoidRootPart.CFrame = CFrame.new(behindPos, enemyPos)
                 end
                 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-                task.wait(0.05)
+                task.wait(0.1)
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
         end
     end
@@ -704,7 +714,7 @@ Fly:AddSlider('FlySlider', {
 
 MiscSec:AddToggle("AntiAFK", { Text = "Enabled" })
 
-Toggles.Flying:OnChanged(function(s)
+Toggles.AntiAFK:OnChanged(function(s)
     getgenv().AntiAFk = s
 end)
 
@@ -828,13 +838,80 @@ uiservice.InputEnded:connect(function(key)
     keys[getkey(key.KeyCode) .. "_active"] = false
 end)
 
+AreaFarmBox:AddToggle("AreaFarm", { Text = "Enabled" })
+
+getgenv().AreaFarmMain = "Power"
+getgenv().AreaZone = "1"
+
+Toggles.AreaFarm:OnChanged(function(s)
+    getgenv().AreaFarm = s
+
+    if getgenv().AreaFarm then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "BTDCBUUS";
+            Text = "Make sure your hand has the right item in it.";
+            Duration = 20;
+        })
+    end
+    while getgenv().AreaFarm do
+        task.wait(0.2)
+        if getgenv().AreaFarmMain == "Power" then
+
+            game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Power[getgenv().AreaZone].CFrame
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
+        elseif getgenv().AreaFarmMain == "Health" then
+            game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Health[getgenv().AreaZone].CFrame
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
+        elseif getgenv().AreaFarmMain == "Defense" then
+            game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Defense[getgenv().AreaZone].CFrame
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
+        elseif getgenv().AreaFarmMain == "Psychics" then
+            game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Psychics[getgenv().AreaZone].CFrame
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
+        elseif getgenv().AreaFarmMain == "Magic" then
+            game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Magic[getgenv().AreaZone].CFrame
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
+        end
+    end
+end)
+
+AreaFarmBox:AddDropdown('AreaFArmDROp', {
+    Values = {"Power", "Health", "Defense", "Psychics", "Magic"},
+    Default = 1,
+    Multi = false,
+    Text = 'Select Type',
+    Tooltip = 'Select the type of power to farm.',
+    Callback = function(Value)
+        getgenv().AreaFarmMain = Value
+    end
+})
+
+AreaFarmBox:AddLabel('--------')
+
+AreaFarmBox:AddInput('MyTextbox', {
+    Default = 'Enter the areanumber',
+    Numeric = true,
+    Finished = false,
+
+    Text = 'Area',
+    Tooltip = 'Enter the area zone number on what you want to farm.',
+
+    Placeholder = 'Enter the areanumber',
+
+    Callback = function(Value)
+        getgenv().AreaZone = Value
+    end
+})
+
 
 -- notif loaded
 
 task.wait(1)
 
-game.StarterGui:SetCore("SendNotification", {
-    Title = "BTDCBUUS";
-    Text = "Loaded";
-    Duration = 3;
-})
+
+RedeemCodes()

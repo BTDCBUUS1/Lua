@@ -862,16 +862,12 @@ Toggles.AreaFarm:OnChanged(function(s)
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
         elseif getgenv().AreaFarmMain == "Health" then
             game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Health[getgenv().AreaZone].CFrame
-            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
-            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
         elseif getgenv().AreaFarmMain == "Defense" then
             game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Defense[getgenv().AreaZone].CFrame
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
-        elseif getgenv().AreaFarmMain == "Psychics" then
+        elseif getgenv().AreaFarmMain == "Psychics" and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame ~= game:GetService("ReplicatedStorage").TrainingAreas.Psychics[getgenv().AreaZone].CFrame then
             game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Psychics[getgenv().AreaZone].CFrame
-            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
-            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
         elseif getgenv().AreaFarmMain == "Magic" then
             game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Magic[getgenv().AreaZone].CFrame
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)

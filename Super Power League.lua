@@ -245,6 +245,7 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Main = Window:AddTab('Main'),
     TPS = Window:AddTab('Teleports'),
+    Visuals = Window:AddTab('Other'),
     UI = Window:AddTab('UI'),
 }
 
@@ -262,7 +263,14 @@ local AreaPsychicsTeleport = Tabs.TPS:AddRightGroupbox('Area Psychics Teleport')
 local AreaMagicTeleport = Tabs.TPS:AddRightGroupbox('Area Magic Teleport')
 local Fly = Tabs.Main:AddRightGroupbox('Fly (F)')
 local MiscSec = Tabs.Main:AddRightGroupbox('Anti Afk')
+local RegClick = Tabs.Main:AddRightGroupbox('Auto Clicker (G)')
+local Spinny = Tabs.Main:AddRightGroupbox('SpinBot')
 local AreaFarmBox = Tabs.Main:AddLeftGroupbox('Area Farm')
+local EspMap = Tabs.Visuals:AddLeftGroupbox('ESP Map')
+local EspPlr = Tabs.Visuals:AddLeftGroupbox('ESP Player Box')
+local EspPlrN = Tabs.Visuals:AddLeftGroupbox('ESP Player Name')
+local AutoGrabDrops = Tabs.Visuals:AddRightGroupbox('Auto Grab Drops')
+local KillAura = Tabs.Visuals:AddRightGroupbox('Kill Aura')
 
 AutoFarmBox:AddToggle("AutoFarm", { Text = "AutoFarm" })
 
@@ -317,7 +325,7 @@ Toggles.AutoFarm:OnChanged(function(s)
                 end
                 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
                 task.wait(0.1)
-                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+                game:GetService("ReplicatedStorage").Events.Other.Ability:InvokeServer("Weapon")
         end
     end
     
@@ -333,8 +341,8 @@ Toggles.EnergyCheck:OnChanged(function(s)
 end)
 
 AutoFarmBox:AddSlider('EnergyCheckSlider', {
-    Text = 'Energy Check',
-    Default = 5,
+    Text = 'Energy Check %',
+    Default = 0,
     Min = 1,
     Max = 100,
     Rounding = 1,
@@ -355,8 +363,8 @@ Toggles.HealthCheck:OnChanged(function(s)
 end)
 
 AutoFarmBox:AddSlider('HealthCheckSlide', {
-    Text = 'Health Check',
-    Default = 10,
+    Text = 'Health Check %',
+    Default = 0,
     Min = 1,
     Max = 100,
     Rounding = 1,
@@ -372,7 +380,7 @@ AutoFarmBox:AddLabel('--------')
 
 AutoFarmBox:AddDropdown('AutoFarmSelect', {
     Values = enemyFolder,
-    Default = 1,
+    Default = 0,
     Multi = false,
 
     Text = 'AutoFarmSelect',
@@ -388,7 +396,7 @@ AutoFarmBox:AddLabel('--------')
 
 AutoFarmBox:AddSlider('OffsetSlider', {
     Text = 'OffsetSlider',
-    Default = 4.5,
+    Default = 0,
     Min = 1,
     Max = 15,
     Rounding = 1,
@@ -424,7 +432,7 @@ end)
 
 AutoStatBox:AddDropdown('AutoStatSelect', {
     Values = {"Strength", "Health", "Defense", "Psychic", "Immunity", "Magic"},
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'AutoStatSelect',
     Tooltip = 'Select the stat to auto upgrade',
@@ -467,23 +475,34 @@ AutoFarmStat:AddDropdown('StatSelect', {
     end
 })
 
+local function getRoot()
+    local player = game.Players.LocalPlayer
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        return player.Character.HumanoidRootPart
+    end
+    return nil
+end
+
 AreaPowerTeleport:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("ReplicatedStorage").TrainingAreas.Power
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedPowerTP then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedPowerTP then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AreaPowerTeleport:AddDropdown('StatSelectTPS', {
     Values = powerTps,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -496,19 +515,22 @@ AreaHealthTeleport:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("ReplicatedStorage").TrainingAreas.Health
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedHealthTP then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedHealthTP then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AreaHealthTeleport:AddDropdown('StatSelectTP', {
     Values = healthTps,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -521,19 +543,22 @@ AreaImmunityTeleport:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("ReplicatedStorage").TrainingAreas.Defense
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedImmuneTP then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedImmuneTP then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AreaImmunityTeleport:AddDropdown('StatSelectTPSS', {
     Values = defenseTps,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -546,19 +571,22 @@ AreaPsychicsTeleport:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("ReplicatedStorage").TrainingAreas.Psychics
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedPsychicTP then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedPsychicTP then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AreaPsychicsTeleport:AddDropdown('StatSelectTPSSS', {
     Values = psychicTps,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -571,19 +599,22 @@ AreaMagicTeleport:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("ReplicatedStorage").TrainingAreas.Magic
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedMagicTP then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedMagicTP then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AreaMagicTeleport:AddDropdown('StatSelectTPSSSS', {
     Values = magicTps,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -592,24 +623,26 @@ AreaMagicTeleport:AddDropdown('StatSelectTPSSSS', {
     end
 })
 
-
 AutoWandTp:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("Workspace").Pads.Wands
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedWand then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedWand then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AutoWandTp:AddDropdown('StatSelectTPSSASaaaDASS', {
     Values = WandsFolder,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -622,19 +655,22 @@ AutoWeightTP:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("Workspace").Pads.Weight
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedWEight then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedWEight then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AutoWeightTP:AddDropdown('StatSelectTPSSASaasdaaaDASS', {
     Values = WeightsFolder,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -647,19 +683,22 @@ AutoStoreTP:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("Workspace").Pads.Store
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SelectedStoreTP then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SelectedStoreTP then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AutoStoreTP:AddDropdown('StatSelectTPSSASadaaasdaaaDASS', {
     Values = StoresFolder,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -672,19 +711,22 @@ AutoSideTask:AddButton({
     Text = 'Teleport',
     Func = function()
         local folderPower = game:GetService("Workspace").Pads.SideTasks
-        for i,v in pairs(folderPower:GetChildren()) do
-            if v.Name == getgenv().SideTaskTP then
-                root.CFrame = v.CFrame
+        local root = getRoot()
+        if root then
+            for i,v in pairs(folderPower:GetChildren()) do
+                if v.Name == getgenv().SideTaskTP then
+                    root.CFrame = v.CFrame
+                end
             end
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Click to telport to the selected area'
+    Tooltip = 'Click to teleport to the selected area'
 })
 
 AutoSideTask:AddDropdown('StatSelectTPaaaaSSASadaaasdaaaDASS', {
     Values = SideQuestsFolder,
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Teleport',
     Tooltip = 'Select the Teleport location.',
@@ -745,6 +787,162 @@ runService.Heartbeat:Connect(function()
     end
 end)
 
+RegClick:AddToggle("AutoClicker", { Text = "Enabled" })
+
+Toggles.AutoClicker:OnChanged(function(s)
+    getgenv().AutoClicker = s
+end)
+
+getgenv().AutoClicker = false
+
+local selectedKey = "G"
+local running = false
+
+local function click()
+    local mouse = game.Players.LocalPlayer:GetMouse()
+    mouse1click()
+end
+
+local function startAutoClicking()
+    running = true
+    while running do
+        click()
+        wait(0.1)
+    end
+end
+
+local function stopAutoClicking()
+    running = false
+end
+
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode[selectedKey] then
+        if getgenv().AutoClicker then
+            if running then
+                stopAutoClicking()
+            else
+                startAutoClicking()
+            end
+        end
+    end
+end)
+
+Spinny:AddToggle("SpinBot", { Text = "Enabled" })
+
+Toggles.SpinBot:OnChanged(function(s)
+    getgenv().SpinBot = s
+end)
+
+Spinny:AddSlider('SpinBotSlide', {
+    Text = 'Speed',
+    Default = 0,
+    Min = 1,
+    Max = 20,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        getgenv().SpinSpeed = Value / 100
+        print("SpinBot Speed Value Changed: ", Value)
+    end
+})
+
+EspMap:AddToggle("ESPBOXMAP", { Text = "Map Items" })
+
+Toggles.ESPBOXMAP:OnChanged(function(s)
+    getgenv().ESPitems = s
+end)
+
+EspPlr:AddToggle("ESpPLRBOX", { Text = "Esp Player Box" })
+
+Toggles.ESpPLRBOX:OnChanged(function(s)
+    getgenv().EspPlayerBox = s
+end)
+
+EspPlrN:AddToggle("ESpPLRName", { Text = "Esp Player Name" })
+
+Toggles.ESpPLRName:OnChanged(function(s)
+    getgenv().ESPEnabled  = s
+end)
+
+AutoGrabDrops:AddToggle("AutoGrabDrops", { Text = "Grab Drops" })
+
+Toggles.AutoGrabDrops:OnChanged(function(s)
+    getgenv().AutoDropGrab  = s
+end)
+
+AutoGrabDrops:AddSlider('SpeedGrab', {
+    Text = 'Speed (slower = faster)',
+    Default = 0,
+    Min = 1,
+    Max = 10,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        getgenv().GrabSpeed = Value / 10
+    end
+})
+
+
+getgenv().SpinBot = false
+
+local spinning = false
+
+local function startSpin()
+    local humanoidRootPart = getRoot()
+    while getgenv().SpinBot do
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.Angles(0, math.rad(getgenv().SpinSpeed), 0)
+        task.wait(0.01)
+    end
+end
+
+runService.Heartbeat:Connect(function()
+    local humanoidRootPart = getRoot()
+    if getgenv().SpinBot then
+        if not spinning then
+            spinning = true
+            startSpin()
+        else
+            spinning = false
+            humanoidRootPart.CFrame = humanoidRootPart.CFrame
+        end
+    end
+end)
+
+KillAura:AddToggle("AuraKill", { Text = "Kill Aura" })
+
+Toggles.AuraKill:OnChanged(function(s)
+    getgenv().KillAura  = s
+end)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local enemiesFolder = game:GetService("Workspace").Enemies
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local function checkNearbyEnemies()
+    for _, subFolder in pairs(enemiesFolder:GetChildren()) do
+        for _, enemy in pairs(subFolder:GetChildren()) do
+            if enemy:FindFirstChild("HumanoidRootPart") then
+                local dead = enemy:FindFirstChild("Dead")
+                if (not dead or dead.Value ~= true) then
+                    local enemyRootPart = enemy.HumanoidRootPart
+                    local distance = (humanoidRootPart.Position - enemyRootPart.Position).Magnitude
+                    if distance <= 10 then
+                        replicatedStorage.Events.Other.Ability:InvokeServer("Weapon")
+                    end
+                end
+            end
+        end
+    end
+end
+game:GetService("RunService").Heartbeat:Connect(function()
+    if getgenv().KillAura then
+        checkNearbyEnemies()
+        task.wait()
+    end
+end)
 
 -- UI Settings
 
@@ -909,5 +1107,339 @@ AreaFarmBox:AddInput('MyTextbox', {
 
 task.wait(1)
 
+getgenv().ESPitems = false
+getgenv().EspPlayerBox = false
+
+local workspace = game:GetService("Workspace")
+local camera = workspace.CurrentCamera
+local runService = game:GetService("RunService")
+local mapDropsFolder = workspace:WaitForChild("MapDrops")
+
+local partDrawings = {}
+
+local function createESPBox(part)
+    if part:IsA("BasePart") and part:FindFirstChild("ID") then
+        local lines = {}
+
+        for i = 1, 12 do
+            lines[i] = Drawing.new("Line")
+            lines[i].Visible = false
+            lines[i].Color = Color3.fromRGB(255, 0, 0)
+            lines[i].Thickness = 2
+        end
+
+        partDrawings[part] = lines
+
+        local function updateESP()
+            if not part.Parent then
+                partDrawings[part] = nil
+                return
+            end
+
+            local partPosition = part.Position
+            local partSize = part.Size
+            local partCorners = {
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, -partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, -partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, -partSize.Y/2, partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, -partSize.Y/2, partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, partSize.Y/2, partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, partSize.Y/2, partSize.Z/2))
+            }
+
+            local edges = {
+                {1, 2}, {2, 3}, {3, 4}, {4, 1},
+                {5, 6}, {6, 7}, {7, 8}, {8, 5},
+                {1, 5}, {2, 6}, {3, 7}, {4, 8}
+            }
+
+            for i, edge in ipairs(edges) do
+                local line = lines[i]
+                local startPoint = Vector2.new(partCorners[edge[1]].X, partCorners[edge[1]].Y)
+                local endPoint = Vector2.new(partCorners[edge[2]].X, partCorners[edge[2]].Y)
+
+                line.From = startPoint
+                line.To = endPoint
+                line.Visible = getgenv().ESPitems
+            end
+        end
+
+        runService.RenderStepped:Connect(function()
+            if getgenv().ESPitems then
+                updateESP()
+            else
+                for _, line in pairs(lines) do
+                    line.Visible = false
+                end
+            end
+        end)
+    end
+end
+
+local function removeESP()
+    for part, lines in pairs(partDrawings) do
+        for _, line in pairs(lines) do
+            line:Remove()
+        end
+    end
+    partDrawings = {}
+end
+
+for _, part in pairs(mapDropsFolder:GetChildren()) do
+    createESPBox(part)
+end
+
+mapDropsFolder.ChildAdded:Connect(function(child)
+    createESPBox(child)
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if not getgenv().ESPitems then
+        removeESP()
+    else
+        for _, part in pairs(mapDropsFolder:GetChildren()) do
+            if part:IsA("BasePart") and part:FindFirstChild("ID") then
+                if not partDrawings[part] then
+                    createESPBox(part)
+                end
+            end
+        end
+    end
+end)
+
+local workspace = game:GetService("Workspace")
+local camera = workspace.CurrentCamera
+local runService = game:GetService("RunService")
+local players = game:GetService("Players")
+local partDrawings = {}
+
+getgenv().ESPBoxThickness = 5
+
+local function createESPBox(player)
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local humanoidRootPart = player.Character:WaitForChild("HumanoidRootPart")
+        local lines = {}
+
+        for i = 1, 12 do
+            lines[i] = Drawing.new("Line")
+            lines[i].Visible = false
+            lines[i].Color = Color3.fromRGB(255, 0, 0)
+            lines[i].Thickness = getgenv().ESPBoxThickness
+        end
+
+        partDrawings[player] = lines
+
+        local function updateESP()
+            if not player.Character or not humanoidRootPart.Parent then
+                partDrawings[player] = nil
+                return
+            end
+
+            local partPosition = humanoidRootPart.Position
+            local partSize = humanoidRootPart.Size
+            local partCorners = {
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, -partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, -partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, partSize.Y/2, -partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, -partSize.Y/2, partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, -partSize.Y/2, partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(partSize.X/2, partSize.Y/2, partSize.Z/2)),
+                camera:WorldToViewportPoint(partPosition + Vector3.new(-partSize.X/2, partSize.Y/2, partSize.Z/2))
+            }
+
+            local edges = {
+                {1, 2}, {2, 3}, {3, 4}, {4, 1},
+                {5, 6}, {6, 7}, {7, 8}, {8, 5},
+                {1, 5}, {2, 6}, {3, 7}, {4, 8}
+            }
+
+            for i, edge in ipairs(edges) do
+                local line = lines[i]
+                local startPoint = Vector2.new(partCorners[edge[1]].X, partCorners[edge[1]].Y)
+                local endPoint = Vector2.new(partCorners[edge[2]].X, partCorners[edge[2]].Y)
+
+                line.From = startPoint
+                line.To = endPoint
+                line.Visible = getgenv().EspPlayerBox
+            end
+        end
+
+        runService.RenderStepped:Connect(function()
+            if getgenv().EspPlayerBox then
+                updateESP()
+            else
+                for _, line in pairs(lines) do
+                    line.Visible = false
+                end
+            end
+        end)
+    end
+end
+
+local function removeESP()
+    for player, lines in pairs(partDrawings) do
+        for _, line in pairs(lines) do
+            line:Remove()
+        end
+    end
+    partDrawings = {}
+end
+
+for _, player in pairs(players:GetPlayers()) do
+    if player ~= players.LocalPlayer then
+        createESPBox(player)
+    end
+end
+
+players.PlayerAdded:Connect(function(player)
+    if player ~= players.LocalPlayer then
+        createESPBox(player)
+    end
+end)
+
+players.PlayerRemoving:Connect(function(player)
+    if partDrawings[player] then
+        removeESP()
+    end
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if not getgenv().EspPlayerBox then
+        removeESP()
+    else
+        for _, player in pairs(players:GetPlayers()) do
+            if player ~= players.LocalPlayer then
+                if not partDrawings[player] then
+                    createESPBox(player)
+                end
+            end
+        end
+    end
+end)
+
+getgenv().GrabSpeed = 1
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local root = character:WaitForChild("HumanoidRootPart")
+local mapDropsFolder = game:GetService("Workspace").MapDrops
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local function findClosestPart()
+    local closestPart = nil
+    local shortestDistance = math.huge
+
+    for _, part in pairs(mapDropsFolder:GetChildren()) do
+        if part:IsA("BasePart") and part:FindFirstChild("ID") then
+            local distance = (root.Position - part.Position).Magnitude
+            if distance < shortestDistance then
+                shortestDistance = distance
+                closestPart = part
+            end
+        end
+    end
+
+    return closestPart
+end
+
+local function teleportAndCollect()
+    local closestPart = findClosestPart()
+    
+    if closestPart then
+        root.CFrame = CFrame.new(closestPart.Position)
+        wait(0.1)
+        local partName = closestPart.Name
+        local ohNumber1 = tonumber(partName)
+        
+        if ohNumber1 then
+            ReplicatedStorage.Events.Inventory.CollectItem:FireServer(ohNumber1)
+        end
+    end
+end
+
+local Players = game:GetService("Players")
+local Camera = game:GetService("Workspace").CurrentCamera
+local RunService = game:GetService("RunService")
+
+local playerESP = {}
+
+getgenv().ESPEnabled = false
+
+local function createPlayerESP(player)
+    if not getgenv().ESPEnabled then return end
+    local character = player.Character or player.CharacterAdded:Wait()
+    local head = character:WaitForChild("Head")
+    
+    local text = Drawing.new("Text")
+    text.Visible = false
+    text.Color = Color3.fromRGB(255, 255, 255)
+    text.Text = player.Name
+    text.Size = 20
+    text.Center = true
+    text.Outline = true
+    text.OutlineColor = Color3.fromRGB(0, 0, 0)
+    
+    playerESP[player.UserId] = text
+    
+    local function updateESP()
+        if not playerESP[player.UserId] then return end
+        if character.Parent == nil then
+            text:Remove()
+            playerESP[player.UserId] = nil
+            return
+        end
+        
+        local screenPos, onScreen = Camera:WorldToViewportPoint(head.Position)
+        if onScreen then
+            text.Position = Vector2.new(screenPos.X, screenPos.Y - 30)
+            text.Visible = getgenv().ESPEnabled
+        else
+            text.Visible = false
+        end
+    end
+
+    RunService.RenderStepped:Connect(updateESP)
+end
+
+Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function()
+        createPlayerESP(player)
+    end)
+end)
+
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= Players.LocalPlayer then
+        createPlayerESP(player)
+    end
+end
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if not getgenv().ESPEnabled then
+        for _, esp in pairs(playerESP) do
+            esp.Visible = false
+        end
+    else
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= Players.LocalPlayer then
+                if not playerESP[player.UserId] then
+                    createPlayerESP(player)
+                end
+            end
+        end
+    end
+end)
+
+
 
 RedeemCodes()
+
+while true do
+    if getgenv().AutoDropGrab then
+        teleportAndCollect()
+    end
+    task.wait(getgenv().GrabSpeed)
+end
+

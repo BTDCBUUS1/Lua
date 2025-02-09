@@ -117,119 +117,70 @@ local StoresFolder = {}
 local WandsFolder = {}
 local WeightsFolder = {}
 local SideQuestsFolder = {}
-local MainQuestsFolder = {}
 
+local function isInTable(value, tbl)
+    for _, v in ipairs(tbl) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+local function sortAndInsert(folder, tableToInsert)
+    local items = folder:GetChildren()
+    table.sort(items, function(a, b)
+        return tonumber(a.Name) < tonumber(b.Name)
+    end)
+
+    for _, item in ipairs(items) do
+        if not isInTable(item.Name, tableToInsert) then
+            table.insert(tableToInsert, item.Name)
+        end
+    end
+end
+
+-- Wands
 local FolderWands = game:GetService("Workspace").Pads.Wands
-local StoreWands = FolderWands:GetChildren()
+sortAndInsert(FolderWands, WandsFolder)
 
-table.sort(StoreWands, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(StoreWands) do
-    table.insert(WandsFolder, item.Name)
-end
-
+-- Side Tasks
 local FolderSideTask = game:GetService("Workspace").Pads.SideTasks
-local SideTask = FolderSideTask:GetChildren()
+sortAndInsert(FolderSideTask, SideQuestsFolder)
 
-table.sort(SideTask, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(SideTask) do
-    table.insert(SideQuestsFolder, item.Name)
-end
-
+-- Weights
 local Weightsfold = game:GetService("Workspace").Pads.Weight
-local Weights = Weightsfold:GetChildren()
+sortAndInsert(Weightsfold, WeightsFolder)
 
-table.sort(Weights, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(Weights) do
-    table.insert(WeightsFolder, item.Name)
-end
-
-
+-- Store Items
 local FolderStore = game:GetService("Workspace").Pads.Store
-local StoreItems = FolderStore:GetChildren()
+sortAndInsert(FolderStore, StoresFolder)
 
-table.sort(StoreItems, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(StoreItems) do
-    table.insert(StoresFolder, item.Name)
-end
-
+-- Enemies
 local FolderEnemy = enemies
-local EnemyItems = FolderEnemy:GetChildren()
+sortAndInsert(FolderEnemy, enemyFolder)
 
-table.sort(EnemyItems, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(EnemyItems) do
-    table.insert(enemyFolder, item.Name)
-end
-
-
+-- Power Training Areas
 local folderPower = game:GetService("ReplicatedStorage").TrainingAreas.Power
-local itemsPower = folderPower:GetChildren()
+sortAndInsert(folderPower, powerTps)
 
-table.sort(itemsPower, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(itemsPower) do
-    table.insert(powerTps, item.Name)
-end
-
+-- Health Training Areas
 local folderHealth = game:GetService("ReplicatedStorage").TrainingAreas.Health
-local itemsHealth = folderHealth:GetChildren()
+sortAndInsert(folderHealth, healthTps)
 
-table.sort(itemsHealth, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(itemsHealth) do
-    table.insert(healthTps, item.Name)
-end
-
+-- Defense Training Areas
 local folderDefense = game:GetService("ReplicatedStorage").TrainingAreas.Defense
-local itemsDefense = folderDefense:GetChildren()
+sortAndInsert(folderDefense, defenseTps)
 
-table.sort(itemsDefense, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(itemsDefense) do
-    table.insert(defenseTps, item.Name)
-end
-
+-- Psychics Training Areas
 local folderPsychics = game:GetService("ReplicatedStorage").TrainingAreas.Psychics
-local itemsPsychics = folderPsychics:GetChildren()
+sortAndInsert(folderPsychics, psychicTps)
 
-table.sort(itemsPsychics, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
-
-for _, item in ipairs(itemsPsychics) do
-    table.insert(psychicTps, item.Name)
-end
-
+-- Magic Training Areas
 local folderMagic = game:GetService("ReplicatedStorage").TrainingAreas.Magic
-local itemsMagic = folderMagic:GetChildren()
+sortAndInsert(folderMagic, magicTps)
 
-table.sort(itemsMagic, function(a, b)
-    return tonumber(a.Name) < tonumber(b.Name)
-end)
 
-for _, item in ipairs(itemsMagic) do
-    table.insert(magicTps, item.Name)
-end
 
 -- library
 
@@ -1553,4 +1504,4 @@ runService.Heartbeat:Connect(function()
     task.wait(getgenv().GrabSpeed)
 end)
 
-
+print("Loaded")

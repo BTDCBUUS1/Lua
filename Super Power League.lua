@@ -323,7 +323,9 @@ Toggles.AutoFarm:OnChanged(function(s)
                 if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
                     player.Character.HumanoidRootPart.CFrame = CFrame.new(behindPos, enemyPos)
                 end
-                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                if getgenv().MoreDamage then
+                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                end
                 task.wait(0.1)
                 game:GetService("ReplicatedStorage").Events.Other.Ability:InvokeServer("Weapon")
         end
@@ -375,6 +377,14 @@ AutoFarmBox:AddSlider('HealthCheckSlide', {
         getgenv().HealthCheckSlider = Value
     end
 })
+
+AutoFarmBox:AddLabel('--------')
+
+AutoFarmBox:AddToggle("MoreDamage", { Text = "More Damage (takes more stamina)" })
+
+Toggles.MoreDamage:OnChanged(function(s)
+    getgenv().MoreDamage = s
+end)
 
 AutoFarmBox:AddLabel('--------')
 
@@ -1076,7 +1086,7 @@ end)
 
 AreaFarmBox:AddDropdown('AreaFArmDROp', {
     Values = {"Power", "Health", "Defense", "Psychics", "Magic"},
-    Default = 1,
+    Default = 0,
     Multi = false,
     Text = 'Select Type',
     Tooltip = 'Select the type of power to farm.',
@@ -1324,7 +1334,6 @@ getgenv().GrabSpeed = 1
 
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local root = character:WaitForChild("HumanoidRootPart")
 local mapDropsFolder = game:GetService("Workspace").MapDrops
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -1334,7 +1343,7 @@ local function findClosestPart()
 
     for _, part in pairs(mapDropsFolder:GetChildren()) do
         if part:IsA("BasePart") and part:FindFirstChild("ID") then
-            local distance = (root.Position - part.Position).Magnitude
+            local distance = (getRoot().Position - part.Position).Magnitude
             if distance < shortestDistance then
                 shortestDistance = distance
                 closestPart = part
@@ -1347,7 +1356,7 @@ end
 
 local function teleportAndCollect()
     local closestPart = findClosestPart()
-    
+    local root = getRoot()
     if closestPart then
         root.CFrame = CFrame.new(closestPart.Position)
         wait(0.1)
@@ -1436,10 +1445,9 @@ end)
 
 RedeemCodes()
 
-while true do
+while task.wait() do
     if getgenv().AutoDropGrab then
         teleportAndCollect()
     end
     task.wait(getgenv().GrabSpeed)
 end
-

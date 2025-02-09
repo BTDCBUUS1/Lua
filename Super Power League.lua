@@ -9,6 +9,9 @@ game.StarterGui:SetCore("SendNotification", {
 
 repeat task.wait() until game.Players.LocalPlayer.Character.HumanoidRootPart
 
+
+task.wait(5)
+
 -- variables
 
 local plr = game.Players.LocalPlayer

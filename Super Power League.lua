@@ -271,6 +271,7 @@ local EspPlr = Tabs.Visuals:AddLeftGroupbox('ESP Player Box')
 local EspPlrN = Tabs.Visuals:AddLeftGroupbox('ESP Player Name')
 local AutoGrabDrops = Tabs.Visuals:AddRightGroupbox('Auto Grab Drops')
 local KillAura = Tabs.Visuals:AddRightGroupbox('Kill Aura')
+--local DishesFarm = Tabs.Visuals:AddRightGroupbox('DishesFarm')
 
 AutoFarmBox:AddToggle("AutoFarm", { Text = "AutoFarm" })
 
@@ -926,6 +927,103 @@ Toggles.AuraKill:OnChanged(function(s)
     getgenv().KillAura  = s
 end)
 
+--[[DishesFarm:AddToggle("DishesFarm", { Text = "Enabled" })
+
+Toggles.DishesFarm:OnChanged(function(s)
+    getgenv().DoDishes  = s
+end)
+
+local player = game.Players.LocalPlayer
+local playersService = game:GetService("Players")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local events = replicatedStorage.Events.Other
+
+local function getPlayerStats()
+    local playerData = replicatedStorage.Data:FindFirstChild(player.Name)
+    if playerData then
+        return playerData:FindFirstChild("Stats")
+    end
+    return nil
+end
+
+local function hasDirtyDishes()
+    local tempValues = playersService[player.Name]:FindFirstChild("TempValues")
+    if tempValues then
+        local dirtyDishes = tempValues:FindFirstChild("DirtyDishes")
+        if dirtyDishes and dirtyDishes.Value > 0 then
+            return true
+        end
+    end
+    return false
+end
+
+local function checkDishesProgress()
+    local tempValues = playersService[player.Name]:FindFirstChild("TempValues")
+    if tempValues then
+        local dishesProgress = tempValues:FindFirstChild("DishesProgress")
+        if dishesProgress and dishesProgress.Value ~= 0 then
+            return true
+        end
+    end
+    return false
+end
+
+if checkDishesProgress() then
+    print("DishesProgress is not 0. Canceling task.")
+    events.CancelTask:FireServer(1)
+end
+
+local taskInProgress = false
+
+local function startCleaningDishes()
+    if taskInProgress then
+        return
+    end
+
+    local stats = getPlayerStats()
+    if not stats then
+        warn("Stats not found for player.")
+        return
+    end
+
+    if not hasDirtyDishes() then
+        warn("No dirty dishes available.")
+        return
+    end
+
+    taskInProgress = true
+    local startCount = stats.DishesCleaned.Value
+    events.StartSideTask:FireServer(1)
+    task.wait(0.2)
+    repeat
+        events.CleanDishes:FireServer()
+        wait(0.5)
+    until stats.DishesCleaned.Value >= startCount + 10
+
+    print("Dishes cleaned. Claiming side task...")
+    events.ClaimSideTask:FireServer(1)
+    wait(0.5)
+    events.StartSideTask:FireServer(1)
+
+    taskInProgress = false
+end
+
+if not checkDishesProgress() then
+    if getgenv().DoDishes and not taskInProgress then
+        if hasDirtyDishes() then
+            startCleaningDishes()
+        elseif not hasDirtyDishes() then
+            print("Waiting for dirty dishes...")
+        end
+    end
+end
+
+
+]]
+
+
+
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
@@ -1445,9 +1543,11 @@ end)
 
 RedeemCodes()
 
-while task.wait() do
+runService.Heartbeat:Connect(function()
     if getgenv().AutoDropGrab then
         teleportAndCollect()
     end
     task.wait(getgenv().GrabSpeed)
-end
+end)
+
+

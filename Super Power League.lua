@@ -104,10 +104,163 @@ function GetClosestEnemy(folderName)
     return closestEnemy
 end
 
+function StartSideTask(s)
+    if s == "Goblin" then
+        local args = {
+            [1] = 2;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Thugs" then
+        local args = {
+            [1] = 3;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Gym Rats" then
+        local args = {
+            [1] = 4;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Veterans" then
+        local args = {
+            [1] = 5;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Yakuza" then
+        local args = {
+            [1] = 6;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Samurai" then
+        local args = {
+            [1] = 8;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Mutants" then
+        local args = {
+            [1] = 7;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Animatronics" then
+        local args = {
+            [1] = 10;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Ninja" then
+        local args = {
+            [1] = 9;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Temple Protectors" then
+        local args = {
+            [1] = 11;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Demons" then
+        local args = {
+            [1] = 12;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Judgers" then
+        local args = {
+            [1] = 13;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+    end
+end
+
+function ClaimSideTask(s)
+    if s == "Goblin" then
+        local args = {
+            [1] = 2;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Thugs" then
+        local args = {
+            [1] = 3;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Gym Rats" then
+        local args = {
+            [1] = 4;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Veterans" then
+        local args = {
+            [1] = 5;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Yakuza" then
+        local args = {
+            [1] = 6;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Samurai" then
+        local args = {
+            [1] = 8;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Mutants" then
+        local args = {
+            [1] = 7;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Animatronics" then
+        local args = {
+            [1] = 10;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Ninja" then
+        local args = {
+            [1] = 9;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Temple Protectors" then
+        local args = {
+            [1] = 11;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Demons" then
+        local args = {
+            [1] = 12;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    elseif s == "Judgers" then
+        local args = {
+            [1] = 13;
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+    end
+end
+
 
 -- tables
 
 local powerTps = {}
+local sidetaskTable = {"Goblin", "Thugs", "Gym Rats", "Veterans", "Yakuza", "Samurai", "Mutants", "Animatronics", "Ninja", "Temple Protectors", "Demons", "Judgers"}
 local healthTps = {}
 local defenseTps = {}
 local psychicTps = {}
@@ -205,8 +358,12 @@ local Tabs = {
 }
 
 local MainTaskBox = Tabs.QuestTab:AddRightGroupbox("Main Task")
+local DishesFarmBox = Tabs.QuestTab:AddRightGroupbox("Dishes Farm")
 local WeeklyTaskClaim = Tabs.QuestTab:AddLeftGroupbox("Weekly Task")
+local DailyTaskClaim = Tabs.QuestTab:AddLeftGroupbox("Daily Task")
+local EnemySideTask = Tabs.QuestTab:AddLeftGroupbox("Auto Enemy SideTask")
 local AutoFarmBox = Tabs.Main:AddLeftGroupbox('Auto Farm')
+local TPGUI = Tabs.TPS:AddLeftGroupbox('Player TP Gui')
 local AutoWandTp = Tabs.TPS:AddLeftGroupbox('Wand Store TP')
 local AutoWeightTP = Tabs.TPS:AddLeftGroupbox('Weight Store TP')
 local AutoSideTask = Tabs.TPS:AddLeftGroupbox('SideTask TP')
@@ -229,6 +386,12 @@ local EspPlrN = Tabs.Visuals:AddLeftGroupbox('ESP Player Name')
 local AutoGrabDrops = Tabs.Visuals:AddRightGroupbox('Auto Grab Drops')
 local KillAura = Tabs.Visuals:AddRightGroupbox('Kill Aura')
 --local DishesFarm = Tabs.Visuals:AddRightGroupbox('DishesFarm')
+
+local TpGUIButt = TPGUI:AddButton('Load GUI', function()
+    GUI()
+end)
+
+TpGUIButt:AddTooltip('Loads the player tp gui')
 
 AutoFarmBox:AddToggle("AutoFarm", { Text = "AutoFarm" })
 
@@ -318,6 +481,22 @@ Toggles.MaintASkStart:OnChanged(function(s)
     end
 end)
 
+DishesFarmBox:AddToggle("DishesFarm", { Text = "Enable" })
+
+Toggles.DishesFarm:OnChanged(function(s)
+    getgenv().DishesFarm = s
+    while getgenv().DishesFarm do
+        local DishesTotal = game:GetService("Players").LocalPlayer:FindFirstChild("TempValues").DirtyDishes.Value
+        if DishesTotal ~= 0 then
+            game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(1)
+            task.wait(0.3)
+            game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("CleanDishes", 9e9):FireServer({})
+            task.wait(10.2)
+            game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(1)
+        end
+    end
+end)
+
 
 MainTaskBox:AddLabel('-----------------------')
 
@@ -341,6 +520,40 @@ Toggles.WeeklyTaskClaim:OnChanged(function(s)
         task.wait(6)
     end
 end)
+
+DailyTaskClaim:AddToggle("DailyTaskClaim", { Text = "DailyTask Claim" })
+
+Toggles.DailyTaskClaim:OnChanged(function(s)
+    getgenv().DailyTaskClaim = s
+    while getgenv().DailyTaskClaim do
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimDailyTask", 9e9):FireServer(1)
+        task.wait(6)
+    end
+end)
+
+EnemySideTask:AddToggle("EnemySideTask", { Text = "Enable" })
+
+Toggles.EnemySideTask:OnChanged(function(s)
+    getgenv().EnemySideTask = s
+    while getgenv().EnemySideTask do
+        StartSideTask(getgenv().SelectedEnemySideTask)
+        task.wait(2)
+        ClaimSideTask(getgenv().SelectedEnemySideTask)
+    end
+end)
+
+EnemySideTask:AddDropdown('EnemySideTaskDropdown', {
+    Values = sidetaskTable,
+    Default = 0,
+    Multi = false,
+    Text = 'Select Stat',
+    Tooltip = 'Select the stat to auto upgrade',
+    Callback = function(Value)
+        getgenv().SelectedEnemySideTask = Value
+    end
+})
+
+
 
 AutoFarmBox:AddLabel('--------')
 
@@ -1175,7 +1388,7 @@ Toggles.AreaFarm:OnChanged(function(s)
         elseif getgenv().AreaFarmMain == "Health" and game:GetService("ReplicatedStorage").TrainingAreas.Health[getgenv().AreaZone] then
             game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Health[getgenv().AreaZone].CFrame
         elseif getgenv().AreaFarmMain == "Defense" and game:GetService("ReplicatedStorage").TrainingAreas.Defense[getgenv().AreaZone] then
-            game.Players.LocalPlaer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Defense[getgenv().AreaZone].CFrame
+            game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("ReplicatedStorage").TrainingAreas.Defense[getgenv().AreaZone].CFrame
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1)
         elseif getgenv().AreaFarmMain == "Psychics" and game:GetService("ReplicatedStorage").TrainingAreas.Psychics[getgenv().AreaZone] then
@@ -1572,4 +1785,208 @@ SaveManager:BuildConfigSection(Tabs.UI)
 ThemeManager:ApplyToTab(Tabs.UI)
 SaveManager:LoadAutoloadConfig()
 
-game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value = "Fuck OFF - DEVS"
+task.wait(1)
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "BTDCBUUS";
+    Text = "Fully loaded enjoy!";
+    Duration = 5;
+})
+
+function GUI()
+    local Players = game:GetService("Players")
+    local TweenService = game:GetService("TweenService")
+    local LocalPlayer = Players.LocalPlayer
+    local UserInputService = game:GetService("UserInputService")
+    
+    local Executor = "Unknown"
+    if identifyexecutor then
+        Executor = identifyexecutor()
+    end
+    
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+    
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Size = UDim2.new(0, 500, 0, 350)
+    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    MainFrame.ClipsDescendants = true
+    MainFrame.Parent = ScreenGui
+    
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 10)
+    UICorner.Parent = MainFrame
+    
+    local dragging, dragStart
+    
+    MainFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local mousePos = UserInputService:GetMouseLocation()
+            local newPos = UDim2.new(0, mousePos.X - MainFrame.Size.X.Offset / 2, 0, mousePos.Y - MainFrame.Size.Y.Offset / 2)
+            TweenService:Create(MainFrame, TweenInfo.new(0.2), {Position = newPos}):Play()
+        end
+    end)
+    
+    local PlayerPanel = Instance.new("Frame")
+    PlayerPanel.Size = UDim2.new(0, 170, 1, 0)
+    PlayerPanel.Position = UDim2.new(0, 0, 0, 0)
+    PlayerPanel.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+    PlayerPanel.Parent = MainFrame
+    
+    local PlayerCorner = Instance.new("UICorner")
+    PlayerCorner.CornerRadius = UDim.new(0, 10)
+    PlayerCorner.Parent = PlayerPanel
+    
+    local PlayerImage = Instance.new("ImageLabel")
+    PlayerImage.Size = UDim2.new(0, 150, 0, 120)
+    PlayerImage.Position = UDim2.new(0.5, -75, 0.05, 0)
+    PlayerImage.Parent = PlayerPanel
+    PlayerImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    PlayerImage.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. LocalPlayer.UserId .. "&width=420&height=420&format=png"
+    
+    local function createLabel(text, position, size)
+        local Label = Instance.new("TextLabel")
+        Label.Size = size
+        Label.Position = position
+        Label.Text = text
+        Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Label.TextScaled = true
+        Label.BackgroundTransparency = 1
+        Label.Parent = PlayerPanel
+        return Label
+    end
+    
+    createLabel("Name: " .. LocalPlayer.DisplayName, UDim2.new(0, 5, 0.5, 0), UDim2.new(1, -10, 0, 20))
+    createLabel("UserId: " .. LocalPlayer.UserId, UDim2.new(0, 5, 0.65, 0), UDim2.new(1, -10, 0, 20))
+    createLabel("Executor: " .. Executor, UDim2.new(0, 5, 0.8, 0), UDim2.new(1, -10, 0, 20))
+    
+    local PlayerList = Instance.new("ScrollingFrame")
+    PlayerList.Size = UDim2.new(1, -180, 1, 0)
+    PlayerList.Position = UDim2.new(0, 180, 0, 0)
+    PlayerList.CanvasSize = UDim2.new(0, 0, 0, 0)
+    PlayerList.ScrollBarThickness = 5
+    PlayerList.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    PlayerList.Parent = MainFrame
+    
+    local ListCorner = Instance.new("UICorner")
+    ListCorner.CornerRadius = UDim.new(0, 10)
+    ListCorner.Parent = PlayerList
+    
+    local UIList = Instance.new("UIListLayout")
+    UIList.Parent = PlayerList
+    UIList.SortOrder = Enum.SortOrder.LayoutOrder
+    
+    local function UpdatePlayerList()
+        for _, child in pairs(PlayerList:GetChildren()) do
+            if child:IsA("Frame") then
+                child:Destroy()
+            end
+        end
+        
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer then
+                local PlayerFrame = Instance.new("Frame")
+                PlayerFrame.Size = UDim2.new(1, 0, 0, 60)
+                PlayerFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+                PlayerFrame.Parent = PlayerList
+                
+                local FrameCorner = Instance.new("UICorner")
+                FrameCorner.CornerRadius = UDim.new(0, 8)
+                FrameCorner.Parent = PlayerFrame
+                
+                local Avatar = Instance.new("ImageLabel")
+                Avatar.Size = UDim2.new(0, 50, 0, 50)
+                Avatar.Position = UDim2.new(0, 5, 0.5, -25)
+                Avatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=420&height=420&format=png"
+                Avatar.Parent = PlayerFrame
+                
+                local NameButton = Instance.new("TextButton")
+                NameButton.Size = UDim2.new(0.55, 0, 1, 0)
+                NameButton.Position = UDim2.new(0, 60, 0, 0)
+                NameButton.Text = player.DisplayName
+                NameButton.TextScaled = true
+                NameButton.TextSize = 12
+                NameButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                NameButton.BackgroundTransparency = 1
+                NameButton.Parent = PlayerFrame
+                
+                NameButton.MouseButton1Click:Connect(function()
+                    if LocalPlayer.Character and player.Character then
+                        LocalPlayer.Character:MoveTo(player.Character:GetPrimaryPartCFrame().Position)
+                    end
+                end)
+            end
+        end
+        
+        PlayerList.CanvasSize = UDim2.new(0, 0, 0, #Players:GetPlayers() * 65)
+    end
+    
+    Players.PlayerAdded:Connect(UpdatePlayerList)
+    Players.PlayerRemoving:Connect(UpdatePlayerList)
+    UpdatePlayerList()
+    
+    local function createNotification()
+        wait(0.5)
+    
+        local NotificationFrame = Instance.new("Frame")
+        NotificationFrame.Size = UDim2.new(0, 300, 0, 100)
+        NotificationFrame.Position = UDim2.new(1, -310, 1, -110)
+        NotificationFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+        NotificationFrame.Parent = ScreenGui
+    
+        local NotificationCorner = Instance.new("UICorner")
+        NotificationCorner.CornerRadius = UDim.new(0, 10)
+        NotificationCorner.Parent = NotificationFrame
+    
+        local NotificationLabel = Instance.new("TextLabel")
+        NotificationLabel.Size = UDim2.new(1, 0, 1, 0)
+        NotificationLabel.Text = "Press 'K' to delete this GUI."
+        NotificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        NotificationLabel.BackgroundTransparency = 1
+        NotificationLabel.TextScaled = true
+        NotificationLabel.Parent = NotificationFrame
+    
+        NotificationFrame.Position = UDim2.new(1, -310, 1, -150)
+        local tweenIn = TweenService:Create(NotificationFrame, TweenInfo.new(0.5), {Position = UDim2.new(1, -310, 1, -110)})
+        tweenIn:Play()
+    
+        tweenIn.Completed:Wait()
+    
+        wait(10)
+        local tweenOut = TweenService:Create(NotificationFrame, TweenInfo.new(0.5), {Position = UDim2.new(1, -310, 1, -150)})
+        tweenOut:Play()
+    
+        tweenOut.Completed:Wait()
+        NotificationFrame:Destroy()
+    end
+    
+    createNotification()
+    
+    UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+        if not gameProcessedEvent then
+            if input.KeyCode == Enum.KeyCode.K then
+                ScreenGui:Destroy()
+            end
+        end
+    end)  
+end
+
+
+while task.wait() do
+    if game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value ~= "Fuck OFF - DEVS" then
+        game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value = "Fuck OFF - DEVS"
+    end
+end

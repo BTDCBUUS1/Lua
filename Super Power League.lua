@@ -488,11 +488,21 @@ Toggles.DishesFarm:OnChanged(function(s)
     while getgenv().DishesFarm do
         local DishesTotal = game:GetService("Players").LocalPlayer:FindFirstChild("TempValues").DirtyDishes.Value
         if DishesTotal ~= 0 then
-            game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(1)
-            task.wait(0.3)
+            local args = {
+                [1] = 1;
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("StartSideTask", 9e9):FireServer(unpack(args))
+            task.wait(1)
             game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("CleanDishes", 9e9):FireServer({})
-            task.wait(10.2)
-            game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(1)
+            task.wait(11)
+            local args = {
+                [1] = 1;
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimSideTask", 9e9):FireServer(unpack(args))
+            task.wait(1)
+        else
+            task.wait(1)
         end
     end
 end)
@@ -1983,10 +1993,18 @@ function GUI()
         end
     end)  
 end
-
+ 
+local Anti
+local plr = game.Players.LocalPlayer
+Anti = hookmetamethod(game, "__namecall", function(self, ...)
+    if self == plr and getnamecallmethod():lower() == "kick" then
+        return warn("[ANTI-KICK] Client Tried To Call Kick Function On LocalPlayer")
+    end
+    return Anti(self, ...)
+end)
 
 while task.wait() do
-    if game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value ~= "Fuck OFF - DEVS" then
-        game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value = "Fuck OFF - DEVS"
+    if game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value ~= "Stop cheating..." then
+        game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value = "Stop cheating..."
     end
 end

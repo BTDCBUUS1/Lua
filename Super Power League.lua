@@ -2041,3 +2041,17 @@ local args = {}
 
 game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimDaily", 9e9):FireServer(unpack(args))
 ]]
+
+function invisible()
+    if getgenv().Invisible then
+        if game:GetService("Players").LocalPlayer.Character.LowerTorso:FindFirstChild'Root' then
+            game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Remove()
+        end
+        if game:GetService("Players").LocalPlayer.Character.UpperTorso:FindFirstChild'Waist' then
+            game:GetService("Players").LocalPlayer.Character.UpperTorso.Waist:Remove()
+        end
+        task.wait(1)
+    else
+        task.wait(1)
+    end
+end

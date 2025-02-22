@@ -361,6 +361,7 @@ local MainTaskBox = Tabs.QuestTab:AddRightGroupbox("Main Task")
 local DishesFarmBox = Tabs.QuestTab:AddRightGroupbox("Dishes Farm")
 local WeeklyTaskClaim = Tabs.QuestTab:AddLeftGroupbox("Weekly Task")
 local DailyTaskClaim = Tabs.QuestTab:AddLeftGroupbox("Daily Task")
+local DailyGiftClaim = Tabs.QuestTab:AddRightGroupbox("DailyGift Claim")
 local EnemySideTask = Tabs.QuestTab:AddLeftGroupbox("Auto Enemy SideTask")
 local AutoFarmBox = Tabs.Main:AddLeftGroupbox('Auto Farm')
 local TPGUI = Tabs.TPS:AddLeftGroupbox('Player TP Gui')
@@ -385,6 +386,7 @@ local EspPlr = Tabs.Visuals:AddLeftGroupbox('ESP Player Box')
 local EspPlrN = Tabs.Visuals:AddLeftGroupbox('ESP Player Name')
 local AutoGrabDrops = Tabs.Visuals:AddRightGroupbox('Auto Grab Drops')
 local KillAura = Tabs.Visuals:AddRightGroupbox('Kill Aura')
+local FOVChanger = Tabs.Visuals:AddRightGroupbox('FOV Changer')
 --local DishesFarm = Tabs.Visuals:AddRightGroupbox('DishesFarm')
 
 local TpGUIButt = TPGUI:AddButton('Load GUI', function()
@@ -556,12 +558,23 @@ EnemySideTask:AddDropdown('EnemySideTaskDropdown', {
     Values = sidetaskTable,
     Default = 0,
     Multi = false,
-    Text = 'Select Stat',
+    Text = 'Select Quest',
     Tooltip = 'Select the stat to auto upgrade',
     Callback = function(Value)
         getgenv().SelectedEnemySideTask = Value
     end
 })
+
+DailyGiftClaim:AddToggle("DailyGiftClaim", { Text = "Enable" })
+
+Toggles.DailyGiftClaim:OnChanged(function(s)
+    getgenv().DailyGiftClaim = s
+    while getgenv().DailyGiftClaim do
+        local args = {}
+        game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimDaily", 9e9):FireServer(unpack(args))
+        task.wait(300)
+    end
+end)
 
 
 
@@ -1993,12 +2006,26 @@ function GUI()
         end
     end)  
 end
+
+FOVChanger:AddSlider('FOVCHANGERSLIDER', {
+    Text = 'FOV Changer',
+    Default = 70,
+    Min = 1,
+    Max = 120,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        local camera = game.Workspace.CurrentCamera
+        camera.FieldOfView = Value
+    end
+})
  
 local Anti
 local plr = game.Players.LocalPlayer
 Anti = hookmetamethod(game, "__namecall", function(self, ...)
     if self == plr and getnamecallmethod():lower() == "kick" then
-        return warn("[ANTI-KICK] Client Tried To Call Kick Function On LocalPlayer")
+        return warn("Client Tried To Call Kick Function On LocalPlayer")
     end
     return Anti(self, ...)
 end)
@@ -2008,3 +2035,9 @@ while task.wait() do
         game:GetService("Players").LocalPlayer.TempValues.DeathMessage.Value = "Stop cheating..."
     end
 end
+
+--[[[
+local args = {}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Events", 9e9):WaitForChild("Other", 9e9):WaitForChild("ClaimDaily", 9e9):FireServer(unpack(args))
+]]
